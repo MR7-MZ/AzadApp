@@ -23,7 +23,8 @@ namespace Azad.API.Helpers
                .ForMember(dest => dest.Age, opt => {
                 opt.ResolveUsing(d => d.DateOfBirth.CalculateAge());
             });
-            CreateMap<Photo, PhotoForDetailsDto>();           
+            CreateMap<Photo, PhotoForDetailsDto>();   
+            CreateMap<UserForUpdateDto, User>();        
         }
     }
 }
