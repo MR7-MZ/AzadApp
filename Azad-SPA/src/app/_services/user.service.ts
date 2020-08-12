@@ -10,13 +10,17 @@ import { User } from '../_models/user';
 export class UserService {
   baseUrl = environment.apiUrl;
 
-constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-getUseres(): Observable<User[]> {
+  getUseres(): Observable<User[]> {
   return this.http.get<User []>( this.baseUrl + 'users');
-}
+  }
 
-getUser(id): Observable<User> {
+  getUser(id): Observable<User> {
   return this.http.get<User>( this.baseUrl + 'users/' + id);
-}
+  }
+  // tslint:disable-next-line:typedef
+  updateUser(id: number, user: User) {
+    return this.http.put(this.baseUrl + 'users/' + id, user);
+  }
 }
