@@ -6,14 +6,18 @@ using System.Text;
 using System.Threading.Tasks;
 using Azad.API.Data;
 using Azad.API.Helpers;
+using Azad.API.Models;
 using Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,7 +45,7 @@ namespace Azad.Api
             services.AddControllers();
             services.AddCors();
             services.Configure<CloudinarySettings>(Configuration.GetSection("CloudinarySettings"));
-            services.AddAutoMapper();
+            services.AddAutoMapper(typeof(AzadRepository).Assembly);
             services.AddTransient<Seed>();
             services.AddScoped<IAuthRepository,AuthRepository>();
             services.AddScoped<IAzadRepository, AzadRepository>();
@@ -85,7 +89,7 @@ namespace Azad.Api
             app.UseRouting();
 
             // seeder.SeedUsers();
-            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
